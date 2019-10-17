@@ -13,6 +13,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     var player:SKSpriteNode!
+    var block: SKSpriteNode!
+    var wall:SKSpriteNode!
+    
     
      let PLAYER_SPEED:CGFloat = 20
     
@@ -24,6 +27,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
          self.player = self.childNode(withName: "player") as! SKSpriteNode
+        self.block = self.childNode(withName: "stopblock") as! SKSpriteNode
+        self.wall = self.childNode(withName: "wall") as! SKSpriteNode
     }
    
     
@@ -91,8 +96,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
               
                print("Something collided!")
            }
-    
-    
+        if(block.position.x != -34.612 && block.position.y != -277.288)
+        {
+            // try to chnage the wall type so as to respond to rabbit collision to way up
+            
+            self.wall.physicsBody?.collisionBitMask = 1
+        }
+        
     }
     
     
