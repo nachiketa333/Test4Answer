@@ -26,11 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
          self.player = self.childNode(withName: "player") as! SKSpriteNode
     }
    
-    func didBegin(_ contact: SKPhysicsContact) {
-        
-       
-        print("Something collided!")
-    }
+    
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
@@ -75,8 +71,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
    
     }
     
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        let nodeA = contact.bodyA.node
+        let nodeB = contact.bodyB.node
+        
+        if (nodeA == nil || nodeB == nil) {
+            return
+        }
+        
+        if (nodeA!.name == "player" && nodeB!.name == "stopblock") {
+            //collision
+       
+        print("Something collided!")
+    }
+        
+        if (nodeA!.name == "stopblock" && nodeB!.name == "player") {
+                   //collision
+              
+               print("Something collided!")
+           }
     
     
+    }
     
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?)
