@@ -101,6 +101,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // try to chnage the wall type so as to respond to rabbit collision to way up
             
             self.wall.physicsBody?.collisionBitMask = 1
+            self.wall.physicsBody?.contactTestBitMask = 2
+            
         }
         
     }
