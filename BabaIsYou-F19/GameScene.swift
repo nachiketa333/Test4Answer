@@ -14,15 +14,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var player:SKSpriteNode!
     
-    var mouseX:CGFloat = 0
-    var mouseY:CGFloat = 0
+     let PLAYER_SPEED:CGFloat = 20
+    
+  //  var mouseX:CGFloat = 0
+ //   var mouseY:CGFloat = 0
     
 
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
+        
+         self.player = self.childNode(withName: "player") as! SKSpriteNode
     }
    
     func didBegin(_ contact: SKPhysicsContact) {
+        
+       
         print("Something collided!")
     }
     
@@ -31,47 +37,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        let mouseTouch = touches.first
+               if (mouseTouch == nil) {
+                   return
+               }
+               let location = mouseTouch!.location(in: self)
+
+               // WHAT NODE DID THE PLAYER TOUCH
+               // ----------------------------------------------
+               let nodeTouched = atPoint(location).name
+               //print("Player touched: \(nodeTouched)")
+               
+               
+               // GAME LOGIC: Move player based on touch
+               if (nodeTouched == "buttonUp") {
+                   // move up
+                   self.player.position.y = self.player.position.y + PLAYER_SPEED
+               }
+               else if (nodeTouched == "buttonDown") {
+                   // move down
+                    self.player.position.y = self.player.position.y - PLAYER_SPEED
+               }
+               else if (nodeTouched == "buttonLEFT") {
+                   // move left
+                    self.player.position.x = self.player.position.x - PLAYER_SPEED
+               }
+               else if (nodeTouched == "buttonRight") {
+                   // move right
+                    self.player.position.x = self.player.position.x + PLAYER_SPEED
+               }
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        let locationTouched = touches.first
-        if (locationTouched == nil) {
-            // an error occured
-            return
-            
-                let mousePosition = locationTouched!.location(in:self)
-                
-                print("mouseX = \(mousePosition.x)")
-                print("mouseY = \(mousePosition.y)")
-                print("-------")
-            
-            self.mouseX = mousePosition.x
-            self.mouseY = mousePosition.y
-    }
-        
-    }
     
-    func movePlayer(mouseXPosition:CGFloat, mouseYPostion:CGFloat) {
-        
-        // move the player towards the mouse
-        
-        
-        // 1. calculate disatnce between mouse and player
-        let a = (self.mouseX - self.player.position.x);
-        let b = (self.mouseY - self.player.position.y);
-        let distance = sqrt((a * a) + (b * b))
-        
-        // 2. calculate the "rate" to move
-        let xn = (a / distance)
-        let yn = (b / distance)
-        
-        // 3. move the bullet
-        self.player.position.x = self.player.position.x + (xn * 10);
-        self.player.position.y = self.player.position.y + (yn * 10);
-        
-        self.movePlayer(mouseXPosition: self.mouseX, mouseYPostion: self.mouseY)
-        
+   
     }
     
     
